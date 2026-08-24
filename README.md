@@ -197,10 +197,6 @@ Edit these values near the top of the script to experiment with other MDPs:
 ```python
 import numpy as np
 
-# -------------------------------------------------
-# Grid World Configuration
-# -------------------------------------------------
-
 ROWS = 3
 COLS = 4
 
@@ -208,30 +204,16 @@ gamma = 0.9              # Discount Factor
 living_reward = -1       # Reward for every move
 threshold = 0.001        # Convergence threshold
 
-
-# -------------------------------------------------
-# Special States
-# -------------------------------------------------
-
 START = (2, 0)           # Bottom-left corner
 GOAL = (0, 3)            # +10 Reward
 TRAP = (1, 3)            # -10 Reward
 WALL = (1, 1)            # Blocked Cell
 
 
-# -------------------------------------------------
-# Reward Matrix
-# -------------------------------------------------
-
 R = np.full((ROWS, COLS), living_reward)
 
 R[GOAL] = 10
 R[TRAP] = -10
-
-
-# -------------------------------------------------
-# Available Actions
-# -------------------------------------------------
 
 actions = {
     "UP": (-1, 0),
@@ -241,10 +223,6 @@ actions = {
 }
 
 
-# -------------------------------------------------
-# Arrow Symbols
-# -------------------------------------------------
-
 arrows = {
     "UP": "\u2191",
     "DOWN": "\u2193",
@@ -252,10 +230,6 @@ arrows = {
     "RIGHT": "\u2192"
 }
 
-
-# -------------------------------------------------
-# Find Next State
-# -------------------------------------------------
 
 def next_state(state, action):
 
@@ -274,11 +248,6 @@ def next_state(state, action):
         return state
 
     return (nr, nc)
-
-
-# -------------------------------------------------
-# Print Grid
-# -------------------------------------------------
 
 def print_grid():
 
@@ -306,10 +275,6 @@ def print_grid():
         print()
 
 
-# -------------------------------------------------
-# Print Utility Matrix
-# -------------------------------------------------
-
 def print_utility(U):
 
     print()
@@ -328,10 +293,6 @@ def print_utility(U):
 
     print()
 
-
-# -------------------------------------------------
-# Value Iteration
-# -------------------------------------------------
 
 def value_iteration():
 
@@ -389,10 +350,6 @@ def value_iteration():
     return U, policy
 
 
-# -------------------------------------------------
-# Extract Optimal Policy
-# -------------------------------------------------
-
 def extract_policy(U):
 
     policy = np.empty((ROWS, COLS), dtype=object)
@@ -434,10 +391,6 @@ def extract_policy(U):
     return policy
 
 
-# -------------------------------------------------
-# Print Policy
-# -------------------------------------------------
-
 def print_policy(policy):
 
     print()
@@ -451,11 +404,6 @@ def print_policy(policy):
         print()
 
     print()
-
-
-# -------------------------------------------------
-# Policy Iteration
-# -------------------------------------------------
 
 def policy_iteration():
 
@@ -475,10 +423,6 @@ def policy_iteration():
 
     while not stable:
 
-        # -------------------
-        # Policy Evaluation
-        # -------------------
-
         for _ in range(50):
 
             for r in range(ROWS):
@@ -495,10 +439,6 @@ def policy_iteration():
                     ns = next_state(state, action)
 
                     U[state] = R[state] + gamma * U[ns]
-
-        # -------------------
-        # Policy Improvement
-        # -------------------
 
         stable = True
 
@@ -529,8 +469,6 @@ def policy_iteration():
 
                 if old_action != best_action:
                     stable = False
-
-    # Convert action names to arrows
     display_policy = np.empty(
         (ROWS, COLS),
         dtype=object
@@ -557,20 +495,11 @@ def policy_iteration():
     return U, display_policy
 
 
-# -------------------------------------------------
-# Main Function
-# -------------------------------------------------
-
 def main():
 
     print("========== INITIAL GRID ==========")
 
     print_grid()
-
-    # -------------------------
-    # Value Iteration
-    # -------------------------
-
     print("\n========== VALUE ITERATION ==========")
 
     U1, P1 = value_iteration()
@@ -583,10 +512,6 @@ def main():
 
     print_policy(P1)
 
-    # -------------------------
-    # Policy Iteration
-    # -------------------------
-
     print("\n========== POLICY ITERATION ==========")
 
     U2, P2 = policy_iteration()
@@ -598,11 +523,6 @@ def main():
     print("\nOptimal Policy")
 
     print_policy(P2)
-
-
-# -------------------------------------------------
-# Run Program
-# -------------------------------------------------
 
 if __name__ == "__main__":
     main()
